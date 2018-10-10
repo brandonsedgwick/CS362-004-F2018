@@ -643,31 +643,16 @@ int getCost(int cardNumber)
   return -1;
 }
 
-int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
-{
-  int i;
-  int j;
-  int k;
-  int x;
-  int index;
-  int currentPlayer = whoseTurn(state);
-  int nextPlayer = currentPlayer + 1;
+/*REFACTORED CARDS*/
 
-  int tributeRevealedCards[2] = {-1, -1};
-  int temphand[MAX_HAND];// moved above the if statement
-  int drawntreasure=0;
-  int cardDrawn;
-  int z = 0;// this is the counter for the temp hand
-  if (nextPlayer > (state->numPlayers - 1)){
-    nextPlayer = 0;
-  }
-  
+
+adventurerRefactored(struct gameState *state, int currentPlayer, int *temphand)
+{
+	int z=0;
+	int cardDrawn;
+	int drawntreasure=0;
 	
-  //uses switch to select card and perform actions
-  switch( card ) 
-    {
-    case adventurer:
-      while(drawntreasure<2){
+	     while(drawntreasure<2){
 	if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
 	  shuffle(currentPlayer, state);
 	}
@@ -678,7 +663,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	else{
 	  temphand[z]=cardDrawn;
 	  state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
-	  z++;
+	  z=z+2;
 	}
       }
       while(z-1>=0){
@@ -687,9 +672,19 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       }
       return 0;
 			
-    case council_room:
+
+	
+
+}
+
+
+
+int councilRoomRefactored(struct gameState *state, int currentPlayer, int handPos)
+{
+
       //+4 Cards
-      for (i = 0; i < 4; i++)
+      int i;
+	  for (i = 1; i < 4; i++)
 	{
 	  drawCard(currentPlayer, state);
 	}
@@ -710,11 +705,20 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       discardCard(handPos, currentPlayer, state, 0);
 			
       return 0;
-			
-    case feast:
-      //gain card with cost up to 5
+
+
+}
+
+
+
+int feastRefactored(struct gameState *state, int currentPlayer, int *temphand, int choice1) 
+{
+      int i;
+	  int x;
+	  
+	  //gain card with cost up to 5
       //Backup hand
-      for (i = 0; i <= state->handCount[currentPlayer]; i++){
+      for (i = 0; i <= state->handCount[currentPlayer]; i=i+2){
 	temphand[i] = state->hand[currentPlayer][i];//Backup card
 	state->hand[currentPlayer][i] = -1;//Set to nothing
       }
@@ -763,6 +767,85 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       //Reset Hand
       			
       return 0;
+	  
+	  }
+
+
+
+int smithyRefactored(struct gameState *state, int currentPlayer, int handPos)
+{
+int i;
+	  //+3 Cards
+      for (i = 1; i < 3; i++)
+	{
+	  drawCard(currentPlayer, state);
+	}
+			
+      //discard card from hand
+      discardCard(handPos, currentPlayer, state, 0);
+      return 0;
+
+
+}
+
+
+
+int villageRefactored(struct gameState *state, int currentPlayer, int handPos)
+{
+	  //+1 Card
+      drawCard(currentPlayer, state);
+			
+      //+2 Actions
+      state->numActions = state->numActions + 2;
+			
+      //discard played card from hand
+      discardCard(handPos, currentPlayer, state, 0);
+      return 0;
+
+
+
+
+}
+
+
+
+int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
+{
+  int i;
+  int j;
+  int k;
+  int x;
+  int index;
+  int currentPlayer = whoseTurn(state);
+  int nextPlayer = currentPlayer + 1;
+
+  int tributeRevealedCards[2] = {-1, -1};
+  int temphand[MAX_HAND];// moved above the if statement
+  int drawntreasure=0;
+  int cardDrawn;
+  int z = 0;// this is the counter for the temp hand
+  if (nextPlayer > (state->numPlayers - 1)){
+    nextPlayer = 0;
+  }
+  
+	
+  //uses switch to select card and perform actions
+  switch( card ) 
+    {
+    case adventurer:
+	//begin refactoring here
+	adventurerRefactored(state, currentPlayer, temphand);
+	
+	
+	
+	 case council_room:
+	 //refactored
+	   councilRoomRefactored(state, currentPlayer, handPos);
+	
+ 
+			
+    case feast:
+	  feastRefactored(state, currentPlayer, temphand, choice1);
 			
     case gardens:
       return -1;
@@ -829,26 +912,16 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 		
     case smithy:
-      //+3 Cards
-      for (i = 0; i < 3; i++)
-	{
-	  drawCard(currentPlayer, state);
-	}
-			
-      //discard card from hand
-      discardCard(handPos, currentPlayer, state, 0);
-      return 0;
+      
+	  smithyRefactored(state, currentPlayer, handPos);
+	  
+
 		
     case village:
-      //+1 Card
-      drawCard(currentPlayer, state);
-			
-      //+2 Actions
-      state->numActions = state->numActions + 2;
-			
-      //discard played card from hand
-      discardCard(handPos, currentPlayer, state, 0);
-      return 0;
+      
+	  villageRefactored(state, currentPlayer,handPos);
+	  
+
 		
     case baron:
       state->numBuys++;//Increase buys by 1!
@@ -1222,6 +1295,9 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	
   return -1;
 }
+
+
+
 
 int discardCard(int handPos, int currentPlayer, struct gameState *state, int trashFlag)
 {
