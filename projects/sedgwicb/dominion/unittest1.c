@@ -1,3 +1,13 @@
+#include "dominion.h"
+#include "dominion_helpers.h"
+#include "rngs.h"
+#include <string.h>
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <assert.h>
+
+
 /*
 
 Unittest1 - Checks the "isGameOver" function.
@@ -10,10 +20,7 @@ Return: Returns 1 if the game is over
 
 */
 
-#include <stdio.h>
-#include "rngs.h"
-#include "dominion.h"
-#include "dominion_helpers.h"
+
 
 
 
@@ -30,10 +37,12 @@ int main (int argc, char** argv)
   /* initialize supply piles with one card */
    for (i = 0; i < numSupplyPiles; i++)
    {
-        structGameState.supplyCount[i] = 1;
+        structGameState.supplyCount[i] = 5;
    }
 
-printf("Test #1:\n\n");
+/**********************Test #1**************************************/
+
+printf("Test #1: Fill supply piles and province cards with 5 total cards\n\n");
 checkGameOver = isGameOver(&structGameState);
 /*Set this value to 0 since the game should not be over. All supply piles have 5 cards*/
 checkedAgainstValue=0;
@@ -48,9 +57,33 @@ printf("Test #1 PASSED: Return value = 0. isGameOver indicating game is NOT over
 else
 {
 
-printf("Test #1 FAILED: Return value = 1. isGameOver indicating game is over\n\n");
+printf("Test #1 FAILED: Return value = 1. isGameOver indicating game IS over\n\n");
 
 }
+
+/**********************Test #2**************************************/
+printf("Test #2: Remove all province cards\n\n");
+/*By setting the province cards to 0, the game should be over*/
+structGameState.supplyCount[province]=0;
+
+checkGameOver = isGameOver(&structGameState);
+/*Set this value to 1 since the game should be over.*/
+checkedAgainstValue=1;
+
+if(checkedAgainstValue == checkGameOver)
+{
+
+printf("Test #2 PASSED: Return value = 1. isGameOver indicating game IS over\n\n");
+
+}
+
+else
+{
+
+printf("Test #2 FAILED: Return value = 0. isGameOver indicating game is NOT over\n\n");
+
+}
+
 
 
 
