@@ -1,3 +1,12 @@
+Testing: Village
+Village card PASSED
+File 'dominion.c'
+Lines executed:31.80% of 607
+Branches executed:32.85% of 417
+Taken at least once:22.78% of 417
+Calls executed:23.16% of 95
+Creating 'dominion.c.gcov'
+
         -:    0:Source:dominion.c
         -:    0:Graph:dominion.gcno
         -:    0:Data:dominion.gcda
