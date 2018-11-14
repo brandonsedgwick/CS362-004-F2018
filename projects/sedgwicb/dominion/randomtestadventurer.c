@@ -11,6 +11,8 @@ int main(){
 
     int num_tests = 100;
     int i, j;
+    int goodTest=0;
+    int badTest=0;
 
     printf("Testing: Adventurer Card\n");
     for(j =0; j< num_tests; j++)
@@ -32,11 +34,19 @@ int main(){
             structGameState.handCount[i] = rand() % MAX_HAND;
         }
 
-        playCard(adventurer, 1, 1, 1, &structGameState);
+        int result = playCard(adventurer, 1, 1, 1, &structGameState);
 
+        if (result == 0)
+        {
+            goodTest++;
+        }
 
+        else
+        {
+            badTest++;
+        }
 
     }
-    printf("Adventurer card PASSED\n");
+     printf("# of passed tests:%d\n", goodTest);
     return 0;
 }

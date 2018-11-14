@@ -10,6 +10,8 @@ int main(){
     
     int num_tests = 100;
     int i, j;
+    int goodTest=0;
+    int badTest=0;
 
     printf("Testing: Village\n");
     for(j =0; j< num_tests; j++)
@@ -31,10 +33,20 @@ int main(){
             structGameState.handCount[i] = rand() % MAX_HAND;
         }
         
-        cardEffect(village, 1, 1, 1, &structGameState, 1, 0);
+        int result = cardEffect(village, 1, 1, 1, &structGameState, 1, 0);
+
+        if (result == 0)
+        {
+            goodTest++;
+        }
+
+        else
+        {
+            badTest++;
+        }
 
 
     }
-    printf("Village card PASSED\n");
+    printf("# of passed tests:%d\n", goodTest);
     return 0;
 }

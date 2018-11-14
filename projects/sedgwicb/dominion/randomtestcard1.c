@@ -9,6 +9,8 @@ int main(){
     
     int num_tests = 100;
     int i, j;
+    int goodTest=0;
+    int badTest=0;
 
     printf("Testing: Smithy\n");
     for(j =0; j< num_tests; j++)
@@ -30,9 +32,19 @@ int main(){
             structGameState.deckCount[i] = rand() % MAX_DECK;
             structGameState.handCount[i] = rand() % MAX_HAND;
         }
-         cardEffect(smithy, 1, 1, 1, &structGameState, 1, 0);
+         int result = cardEffect(smithy, 1, 1, 1, &structGameState, 1, 0);
+
+        if (result == 0)
+        {
+            goodTest++;
+        }
+
+        else
+        {
+            badTest++;
+        }
 
     }
-      printf("Smithy card PASSED\n");
+       printf("# of passed tests:%d\n", goodTest);
       return 0;
 }
