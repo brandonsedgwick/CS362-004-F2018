@@ -1,0 +1,78 @@
+Dominion Unit Test Results
+--------------------------
+unittest1.c
+This test checks the isGameOver function
+
+
+Test #1: Fill supply piles and province cards with 5 total cards
+
+Test #1 PASSED: Return value = 0. isGameOver indicating game is NOT over
+
+Test #2: Remove all province cards
+
+Test #2 PASSED: Return value = 1. isGameOver indicating game IS over
+
+File 'dominion.c'
+Lines executed:25.58% of 606
+Creating 'dominion.c.gcov'
+
+unittest2.c
+Test #1: Check initial coin count
+
+ Test #1 Passed
+
+Test #2: Check updated coin count
+
+ Test #2 Passed
+
+File 'dominion.c'
+Lines executed:25.91% of 606
+Creating 'dominion.c.gcov'
+
+unittest3.c
+Test #1: Check whoseTurn
+
+ Test PASSED:
+File 'dominion.c'
+Lines executed:25.91% of 606
+Creating 'dominion.c.gcov'
+
+unittest4.c
+Test PASSED: getCost function
+
+File 'dominion.c'
+Lines executed:27.89% of 606
+Creating 'dominion.c.gcov'
+
+cardtest1.c
+Adventurer Card Test:
+
+Adventurer test passed
+File 'dominion.c'
+Lines executed:31.02% of 606
+Creating 'dominion.c.gcov'
+
+cardtest2.c
+Steward Card Test:
+
+Steward test passed
+File 'dominion.c'
+Lines executed:32.34% of 606
+Creating 'dominion.c.gcov'
+
+cardtest3.c
+Smithy Card Test:
+
+Smith test failed
+File 'dominion.c'
+Lines executed:32.34% of 606
+Creating 'dominion.c.gcov'
+
+cardtest4.c
+Village Card Test:
+
+Village test passed
+File 'dominion.c'
+Lines executed:32.34% of 606
+Creating 'dominion.c.gcov'
+
